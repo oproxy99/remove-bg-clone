@@ -3,3 +3,4 @@ flask-cors==6.0.1
 pillow==10.3.0
 rembg==2.0.52
 onnxruntime==1.17.3
+gunicorn
