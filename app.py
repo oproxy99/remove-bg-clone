@@ -1,9 +1,9 @@
+import os
 from flask import Flask, request, send_file, make_response
 from werkzeug.utils import secure_filename
 from rembg import remove
 from PIL import Image, ImageFilter
 import io
-import os
 from datetime import datetime
 from flask_cors import CORS
 
@@ -93,7 +93,6 @@ def custom_bg():
         file.save(input_path)
         background.save(bg_path)
 
-        
         input_image = Image.open(input_path).convert("RGBA")
         img_byte_arr = io.BytesIO()
         input_image.save(img_byte_arr, format='PNG')
@@ -101,11 +100,9 @@ def custom_bg():
 
         fg_removed = Image.open(io.BytesIO(remove(img_bytes))).convert("RGBA")
 
-        
         bg_image = Image.open(bg_path).convert("RGBA")
         bg_resized = bg_image.resize(fg_removed.size)
 
-    
         result = Image.alpha_composite(bg_resized, fg_removed)
         result.save(output_path)
 
@@ -164,4 +161,5 @@ def blur_bg():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=port, debug=True)
